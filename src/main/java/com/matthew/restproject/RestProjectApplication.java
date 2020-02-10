@@ -13,28 +13,16 @@ import java.io.Reader;
 @SpringBootApplication
 public class RestProjectApplication {
 
+	public static Records records;
+
 	public static void main(String[] args) {
-		SpringApplication.run(RestProjectApplication.class, args);
-		loadCSV("real-estate-data.csv");
-
+		// holds all of the CSV records
+		records = new Records("real-estate-data.csv");
+		records.get("street", "645 MORRISON AVE");
+		
+		//SpringApplication.run(RestProjectApplication.class, args);
 	}
 
-	private static void loadCSV(String filename) {
-		try {
-			Reader in = new FileReader(filename);
-			Iterable<CSVRecord> records = CSVFormat.RFC4180.parse(in);
 
-			// print street column form csv
-			for (CSVRecord r : records) {
-				System.out.println(r.get(0));
-			}
-
-		} catch (FileNotFoundException e) {
-			// csv file not found
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 }
