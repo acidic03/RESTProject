@@ -37,20 +37,5 @@ public class Records {
         return false;
     }
 
-    public CSVRecord get(String header, String value) {
-        if (csvLoaded) {
-            for (CSVRecord rec : records) {
-
-                if (rec.get(header).equalsIgnoreCase(value)) {
-                    System.out.println("found " + value);
-                    return rec;
-                }
-            }
-        }
-
-        return null;
-    }
-
     public List<CSVRecord> getRecords() { return records; }
-
 }
