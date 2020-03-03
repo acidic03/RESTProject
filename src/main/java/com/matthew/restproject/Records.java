@@ -14,11 +14,9 @@ import java.util.List;
 public class Records {
 
     private List<CSVRecord> records;
-    private boolean csvLoaded;
-    private int numberOfRecords;
 
     public Records(String filename) {
-        csvLoaded = loadCSV(filename);
+        loadCSV(filename);
     }
 
     private boolean loadCSV(String filename) {
@@ -28,10 +26,10 @@ public class Records {
             records = parser.getRecords();
 
             return true;
-        } catch (FileNotFoundException e) {
-            // csv file not found
-            e.printStackTrace();
         } catch (IOException e) {
+            // csv file not found
+            // I might consider just having this method continue throwing. The server is not going to work well without
+            // being able to load the file
             e.printStackTrace();
         }
         return false;
