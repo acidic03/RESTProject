@@ -21,7 +21,6 @@ public class StatisticsController {
     private final String UTC_PATTERN = "EEE MMM dd HH:mm:ss zzz yyyy";
     private final String DATE_PATTERN = "M/d/y";
 
-    private SimpleDateFormat utcDateFormat = new SimpleDateFormat(UTC_PATTERN);
     private DateFormat dateFormat = new SimpleDateFormat(UTC_PATTERN, Locale.US);
     private DateFormat simpleDateFormat = new SimpleDateFormat(DATE_PATTERN, Locale.US);
     private GsonBuilder builder = new GsonBuilder();
@@ -39,6 +38,8 @@ public class StatisticsController {
                                         @RequestParam(value = "startDate", required = false) String startDate, @RequestParam(value = "endDate", required = false) String endDate,
                                         @RequestParam(value = "zipCode", required = false) String zipCode) {
         // find the record matching the parameters provided
+        // This is a point where it might be nice to have these records attached to a dependency-injected component. It
+        // could help decouple your endpoint from global state.
         List<CSVRecord> rec = RestProjectApplication.RECORDS.getRecords();
 
         double sum = 0;
@@ -63,6 +64,8 @@ public class StatisticsController {
 
                 // checks to see if a zipCode was provided and if so, checks
                 // to see if current record is a match
+                // This is a clever approach to filtering (continue). As a purely style thing, I might do the filtering as a separate
+                // step outside this main method and then do the statistics part as a separate method somewhere (for readability)
                 if (zipCode != null) {
                     if (!r.get("zip").equalsIgnoreCase(zipCode))
                         continue;
